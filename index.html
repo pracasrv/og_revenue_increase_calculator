@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OneGlance Clinic Management Software - Revenue Increase Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #336699;
+    }
+
+    form {
+      margin: 30px auto;
+      max-width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="number"],
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .result {
+      font-weight: bold;
+      font-size: 18px;
+      color: #cc6600;
+    }
+
+    .highlight {
+      font-weight: bold;
+      font-size: 20px;
+      color: #336699;
+    }
+
+    .currency {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h1>Potential Revenue Increase Calculator</h1>
+
+  <form id="revenue-calculator">
+    <label for="avg-patients">Average Number of Patients Per Day:</label>
+    <input type="number" id="avg-patients" value="12">
+
+    <label for="consult-time">Average Consultation Time Per Patient (minutes):</label>
+    <input type="number" id="consult-time" value="15">
+
+    <label for="consult-fee">Average Consultation Fee Per Patient:</label>
+    <input type="text" id="consult-fee" value="150" class="currency">
+
+    <label for="working-days">Average Number of Working Days in a Year:</label>
+    <input type="number" id="working-days" value="200">
+
+    <label for="savings-time">Estimated Savings in Time Per Patient (minutes):</label>
+    <input type="number" id="savings-time" value="1">
+
+    <br>
+
+    <label for="potential-freed-time">Potential Time Freed Per Day for Additional Patients:</label>
+    <span id="potential-freed-time" class="result">0</span><br>
+
+    <label for="potential-new-patients">Potential Additional Patients Per Day:</label>
+    <span id="potential-new-patients" class="result">0</span><br>
+
+    <label for="revenue-increase-day">Potential Revenue Increase per Day:</label>
+    <span id="revenue-increase-day" class="highlight">₹0</span><br>
+
+    <label for="revenue-increase-year">Potential Revenue Increase per Year:</label>
+    <span id="revenue-increase-year" class="highlight">₹0</span><br>
+  </form>
+
+  <script>
+    function calculate() {
+      const avgPatients = parseFloat(document.getElementById('avg-patients').value);
+      const consultTime = parseFloat(document.getElementById('consult-time').value);
+      const consultFee = parseFloat(document.getElementById('consult-fee').value);
+      const workingDays = parseFloat(document.getElementById('working-days').value);
+      const savingsTime = parseFloat(document.getElementById('savings-time').value);
+
+      const freedTime = savingsTime * avgPatients;
+      const newPatients = freedTime / consultTime;
+      const revenueIncreaseDay = (freedTime / consultTime) * consultFee;
+      const revenueIncreaseYear = revenueIncreaseDay * workingDays;
+
+      document.getElementById('potential-freed-time').textContent = freedTime.toFixed(2);
+      document.getElementById('potential-new-patients').textContent = newPatients.toFixed(2);
+      document.getElementById('revenue-increase-day').textContent = '₹' + revenueIncreaseDay.toFixed(2);
+      document.getElementById('revenue-increase-year').textContent = '₹' + revenueIncreaseYear.toFixed(2);
+    }
+
+    const inputs = document.querySelectorAll('#revenue-calculator input');
+    inputs.forEach(function (input) {
+      input.addEventListener('input', calculate);
+    });
+
+    // Initial calculation on page load
+    calculate();
+  </script>
+</body>
+</html>
